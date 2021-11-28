@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anime js Test</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script src="./anime.min.js"></script>
+    <h1 id="score" class="noselect">0</h1>
+    <div id="circle" class="circle"></div>
+    <script>
+      let animation = anime({
+        targets: ".circle",
+        keyframes: [
+          { translateX: 250 },
+          { translateY: 150 },
+          { translateX: -300 },
+          { translateY: -150, translateX: 50 },
+        ],
+      });
+      var isFinished = true;
+      var [mouse_x, mouse_y] = [-100, -100];
+      var l1_dist = 100;
+
+      const circle = document.querySelector("#circle");
+
+      document.addEventListener("mousemove", (event) => {
+        [mouse_x, mouse_y] = [event.clientX, event.clientY];
+        const rect = circle.getBoundingClientRect();
+        const [rect_x, rect_y] = [
+          rect.x + rect.width / 2,
+          rect.y + rect.height / 2,
+        ];
+        l1_dist = Math.min(
+          Math.abs(mouse_x - rect_x),
+          Math.abs(mouse_y - rect_y)
+        );
+      });
+
+      circle.addEventListener("click", (event) => {
+        var score_obj = document.getElementById("score");
+        score_obj.innerHTML = Number(score_obj.innerHTML) + 10;
+      });
+
+      setInterval(() => {
+        if (l1_dist <= 50) {
+          var tl = anime.timeline({});
+          if (isFinished) {
+            isFinished = false;
+            tl.add({
+              targets: ".circle",
+              translateX:
+                (Math.random() >= 0.5 ? 100 : -100) * (Math.random() + 0.5),
+              translateY:
+                (Math.random() >= 0.5 ? 100 : -100) * (Math.random() + 0.5),
+              duration: 500,
+            }).finished.then(() => {
+              console.log("finsihed");
+              isFinished = true;
+            });
+          }
+          tl.play();
+        }
+      }, 50);
+    </script>
+  </body>
+</html>
