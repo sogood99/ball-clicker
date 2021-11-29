@@ -27,6 +27,10 @@
 
       const circle = document.querySelector("#circle");
 
+      document.addEventListener("contextmenu", (event) =>
+        event.preventDefault()
+      ); // disable right click in game
+
       document.addEventListener("mousemove", (event) => {
         [mouse_x, mouse_y] = [event.clientX, event.clientY];
         const rect = circle.getBoundingClientRect();
