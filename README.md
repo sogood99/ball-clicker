@@ -1,2 +1,2 @@
-# anime-test
-A repo to test around with anime.js
+# Ball Clicker
+A simple circle clicking game to test out anime.js
